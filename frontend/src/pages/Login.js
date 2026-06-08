@@ -32,7 +32,7 @@ export default function Login() {
       <div style={styles.card}>
         {/* Logo et titre */}
         <div style={styles.header}>
-          <div style={styles.logo}>FAST</div>
+          <img src="/logo-fast.jpeg" alt="Logo FAST" style={styles.logo} />
           <h1 style={styles.title}>Natitingou</h1>
           <p style={styles.subtitle}>Plateforme de gestion académique</p>
         </div>
@@ -108,17 +108,13 @@ const styles = {
     marginBottom: '32px',
   },
   logo: {
-    background: '#1A3C6E',
-    color: 'white',
-    width: '64px',
-    height: '64px',
-    borderRadius: '16px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '20px',
-    fontWeight: 'bold',
+    width: '90px',
+    height: '90px',
+    borderRadius: '50%',
+    objectFit: 'cover',
     margin: '0 auto 16px',
+    display: 'block',
+    border: '3px solid #C0392B',
   },
   title: {
     color: '#1A3C6E',
