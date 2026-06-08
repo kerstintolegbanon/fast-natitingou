@@ -17,18 +17,19 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  const login = async (email, password) => {
-    const response = await authService.login(email, password);
-    const { access } = response.data;
-    localStorage.setItem('token', access);
+  const login = async (identifiant, password) => {
+    const response = await fetch('http://127.0.0.1:8000/api/auth/login/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identifiant, password }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error('Identifiant ou mot de passe incorrect');
 
-    // Récupère le profil de l'utilisateur
-    const profileResponse = await authService.getProfile();
-    const userData = profileResponse.data;
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
-
-    return userData;
+    localStorage.setItem('token', data.access);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    setUser(data.user);
+    return data.user;
   };
 
   const logout = () => {

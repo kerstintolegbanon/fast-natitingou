@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [identifiant, setIdentifiant] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -15,13 +15,12 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      const user = await login(email, password);
-      // Redirige selon le rôle
+      const user = await login(identifiant, password);
       if (user.role === 'admin') navigate('/admin');
       else if (user.role === 'teacher') navigate('/teacher');
       else if (user.role === 'student') navigate('/student');
     } catch (err) {
-      setError('Email ou mot de passe incorrect');
+      setError('Identifiant ou mot de passe incorrect');
     } finally {
       setLoading(false);
     }
@@ -30,31 +29,36 @@ export default function Login() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        {/* Logo et titre */}
+        {/* Logo */}
         <div style={styles.header}>
-          <img src="/logo-fast.jpeg" alt="Logo FAST" style={styles.logo} />
-          <h1 style={styles.title}>Natitingou</h1>
+          <img
+            src="/logo-fast.jpeg"
+            alt="Logo FAST"
+            style={styles.logo}
+          />
+          <h1 style={styles.title}>FAST Natitingou</h1>
           <p style={styles.subtitle}>Plateforme de gestion académique</p>
         </div>
 
         {/* Formulaire */}
         <form onSubmit={handleSubmit} style={styles.form}>
           {error && (
-            <div style={styles.error}>
-              ⚠️ {error}
-            </div>
+            <div style={styles.error}>⚠️ {error}</div>
           )}
 
           <div style={styles.field}>
-            <label style={styles.label}>Adresse email</label>
+            <label style={styles.label}>Identifiant</label>
             <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="exemple@fast.bj"
+              type="text"
+              value={identifiant}
+              onChange={(e) => setIdentifiant(e.target.value)}
+              placeholder="Nom et Prénom(s) complets ou Email"
               style={styles.input}
               required
             />
+            <span style={styles.hint}>
+              Étudiant : tapez votre nom complet tel qu'il figure sur votre acte de naissance
+            </span>
           </div>
 
           <div style={styles.field}>
@@ -63,10 +67,13 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              placeholder="Matricule ou mot de passe"
               style={styles.input}
               required
             />
+            <span style={styles.hint}>
+              Étudiant : votre mot de passe est votre numéro matricule
+            </span>
           </div>
 
           <button
@@ -89,7 +96,7 @@ export default function Login() {
 const styles = {
   container: {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #1A3C6E 0%, #4472C4 100%)',
+    background: 'linear-gradient(135deg, #C0392B 0%, #922B21 50%, #1A5276 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -100,7 +107,7 @@ const styles = {
     borderRadius: '16px',
     padding: '40px',
     width: '100%',
-    maxWidth: '420px',
+    maxWidth: '440px',
     boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
   },
   header: {
@@ -117,8 +124,8 @@ const styles = {
     border: '3px solid #C0392B',
   },
   title: {
-    color: '#1A3C6E',
-    fontSize: '24px',
+    color: '#C0392B',
+    fontSize: '22px',
     fontWeight: 'bold',
     margin: '0 0 4px',
   },
@@ -142,7 +149,7 @@ const styles = {
   field: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '6px',
+    gap: '4px',
   },
   label: {
     color: '#374151',
@@ -156,8 +163,13 @@ const styles = {
     fontSize: '14px',
     outline: 'none',
   },
+  hint: {
+    fontSize: '11px',
+    color: '#9CA3AF',
+    fontStyle: 'italic',
+  },
   button: {
-    background: '#1A3C6E',
+    background: '#C0392B',
     color: 'white',
     border: 'none',
     borderRadius: '8px',
