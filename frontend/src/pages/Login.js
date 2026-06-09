@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
-  const [identifiant, setIdentifiant] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -15,12 +15,13 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      const user = await login(identifiant, password);
+      const user = await login(email, password);
+      // Redirige selon le rôle
       if (user.role === 'admin') navigate('/admin');
       else if (user.role === 'teacher') navigate('/teacher');
       else if (user.role === 'student') navigate('/student');
     } catch (err) {
-      setError('Identifiant ou mot de passe incorrect');
+      setError('Email ou mot de passe incorrect');
     } finally {
       setLoading(false);
     }
@@ -29,36 +30,34 @@ export default function Login() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        {/* Logo */}
+        {/* Logo et titre */}
         <div style={styles.header}>
-          <img
-            src="/logo-fast.jpeg"
-            alt="Logo FAST"
-            style={styles.logo}
-          />
-          <h1 style={styles.title}>FAST Natitingou</h1>
+          <div style={styles.logo}>FAST</div>
+          <h1 style={styles.title}>Natitingou</h1>
           <p style={styles.subtitle}>Plateforme de gestion académique</p>
+          <p style={styles.hint}>Étudiant : email = matricule@fast.bj | mot de passe = matricule
+
+          </p>
         </div>
 
         {/* Formulaire */}
         <form onSubmit={handleSubmit} style={styles.form}>
           {error && (
-            <div style={styles.error}>⚠️ {error}</div>
+            <div style={styles.error}>
+              ⚠️ {error}
+            </div>
           )}
 
           <div style={styles.field}>
-            <label style={styles.label}>Identifiant</label>
+            <label style={styles.label}>Adresse email</label>
             <input
-              type="text"
-              value={identifiant}
-              onChange={(e) => setIdentifiant(e.target.value)}
-              placeholder="Nom et Prénom(s) complets ou Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="matricule@fast.bj"
               style={styles.input}
               required
             />
-            <span style={styles.hint}>
-              Étudiant : tapez votre nom complet tel qu'il figure sur votre acte de naissance
-            </span>
           </div>
 
           <div style={styles.field}>
@@ -67,13 +66,10 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Matricule ou mot de passe"
+              placeholder="••••••••"
               style={styles.input}
               required
             />
-            <span style={styles.hint}>
-              Étudiant : votre mot de passe est votre numéro matricule
-            </span>
           </div>
 
           <button
@@ -96,7 +92,7 @@ export default function Login() {
 const styles = {
   container: {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #C0392B 0%, #922B21 50%, #1A5276 100%)',
+    background: 'linear-gradient(135deg, #1A3C6E 0%, #4472C4 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -107,7 +103,7 @@ const styles = {
     borderRadius: '16px',
     padding: '40px',
     width: '100%',
-    maxWidth: '440px',
+    maxWidth: '420px',
     boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
   },
   header: {
@@ -115,17 +111,21 @@ const styles = {
     marginBottom: '32px',
   },
   logo: {
-    width: '90px',
-    height: '90px',
-    borderRadius: '50%',
-    objectFit: 'cover',
+    background: '#1A3C6E',
+    color: 'white',
+    width: '64px',
+    height: '64px',
+    borderRadius: '16px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '20px',
+    fontWeight: 'bold',
     margin: '0 auto 16px',
-    display: 'block',
-    border: '3px solid #C0392B',
   },
   title: {
-    color: '#C0392B',
-    fontSize: '22px',
+    color: '#1A3C6E',
+    fontSize: '24px',
     fontWeight: 'bold',
     margin: '0 0 4px',
   },
@@ -149,7 +149,7 @@ const styles = {
   field: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '4px',
+    gap: '6px',
   },
   label: {
     color: '#374151',
@@ -163,13 +163,8 @@ const styles = {
     fontSize: '14px',
     outline: 'none',
   },
-  hint: {
-    fontSize: '11px',
-    color: '#9CA3AF',
-    fontStyle: 'italic',
-  },
   button: {
-    background: '#C0392B',
+    background: '#1A3C6E',
     color: 'white',
     border: 'none',
     borderRadius: '8px',
@@ -196,5 +191,12 @@ const styles = {
     fontSize: '12px',
     marginTop: '24px',
     marginBottom: 0,
+  },
+  hint: {
+    color: '#9CA3AF',
+    fontSize: '11px',
+    fontStyle: 'italic',
+    margin: '4px 0 0',
+    textAlign: 'center',
   },
 };
