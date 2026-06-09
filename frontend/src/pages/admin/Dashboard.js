@@ -9,6 +9,7 @@ export default function AdminDashboard() {
   const [emploiDuTemps, setEmploiDuTemps] = useState([]);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [loading, setLoading] = useState(true);
+  const [recherche, setRecherche] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -150,10 +151,28 @@ export default function AdminDashboard() {
             </div>
 
           ) : activeTab === 'etudiants' ? (
-            <div>
-              <h2 style={styles.pageTitle}>Gestion des étudiants</h2>
-              <div style={styles.card}>
-                <table style={styles.table}>
+  <div>
+    <h2 style={styles.pageTitle}>Gestion des étudiants</h2>
+    {/* Barre de recherche */}
+    <div style={styles.searchBar}>
+      <input
+        type="text"
+        placeholder="🔍 Rechercher par matricule ou nom..."
+        style={styles.searchInput}
+        value={recherche}
+        onChange={e => setRecherche(e.target.value)}
+      />
+      {recherche && (
+        <button
+          style={styles.clearBtn}
+          onClick={() => setRecherche('')}
+        >
+          ✕
+        </button>
+      )}
+    </div>
+    <div style={styles.card}>
+      <table style={styles.table}>
                   <thead>
                     <tr style={styles.tableHeader}>
                       <th style={styles.th}>Matricule</th>
@@ -172,7 +191,12 @@ export default function AdminDashboard() {
                         </td>
                       </tr>
                     ) : (
-                      etudiants.map((e, i) => (
+                      etudiants
+                  .filter(e =>
+                    e.matricule.toLowerCase().includes(recherche.toLowerCase()) ||
+                    e.full_name.toLowerCase().includes(recherche.toLowerCase())
+                  )
+                  .map((e, i) => (
                         <tr key={e.id} style={i % 2 === 0 ? styles.trEven : styles.trOdd}>
                           <td style={styles.td}>{e.matricule}</td>
                           <td style={styles.td}>{e.full_name}</td>
@@ -376,4 +400,7 @@ const styles = {
   badgePending: { background: '#FEF3C7', color: '#D97706', padding: '4px 10px', borderRadius: '12px', fontSize: '12px' },
   badgeType: { background: '#EFF6FF', color: '#1A3C6E', padding: '4px 10px', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold' },
   validateBtn: { background: '#059669', color: 'white', border: 'none', borderRadius: '6px', padding: '6px 12px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' },
+  searchBar: { position: 'relative', marginBottom: '16px', display: 'flex', alignItems: 'center' },
+  searchInput: { width: '100%', border: '1px solid #D1D5DB', borderRadius: '8px', padding: '12px 16px', fontSize: '14px', outline: 'none', boxSizing: 'border-box' },
+  clearBtn: { position: 'absolute', right: '12px', background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px', color: '#9CA3AF' },
 };

@@ -9,6 +9,7 @@ export default function TeacherDashboard() {
   const [emploiDuTemps, setEmploiDuTemps] = useState([]);
   const [activeTab, setActiveTab] = useState('notes');
   const [loading, setLoading] = useState(true);
+  const [recherche, setRecherche] = useState('');
 
   // Formulaire saisie note
   const [formNote, setFormNote] = useState({
@@ -278,8 +279,28 @@ export default function TeacherDashboard() {
             </div>
           </div>
         ) : activeTab === 'etudiants' ? (
-          <div style={styles.tableContainer}>
+          <div>
+            {/* Barre de recherche */}
+            <div style={styles.searchBar}>
+              <input
+                type="text"
+                placeholder="🔍 Rechercher par matricule ou nom..."
+                style={styles.searchInput}
+                value={recherche}
+                onChange={e => setRecherche(e.target.value)}
+              />
+              {recherche && (
+                <button
+                  style={styles.clearBtn}
+                  onClick={() => setRecherche('')}
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+            <div style={styles.tableContainer}>
             <table style={styles.table}>
+
               <thead>
                 <tr style={styles.tableHeader}>
                   <th style={styles.th}>Matricule</th>
@@ -297,7 +318,12 @@ export default function TeacherDashboard() {
                     </td>
                   </tr>
                 ) : (
-                  etudiants.map((e, i) => (
+                  etudiants
+                  .filter(e =>
+                    e.matricule.toLowerCase().includes(recherche.toLowerCase()) ||
+                    e.full_name.toLowerCase().includes(recherche.toLowerCase())
+                  )
+                  .map((e, i) => (
                     <tr key={e.id} style={i % 2 === 0 ? styles.trEven : styles.trOdd}>
                       <td style={styles.td}>{e.matricule}</td>
                       <td style={styles.td}>{e.full_name}</td>
@@ -310,7 +336,8 @@ export default function TeacherDashboard() {
               </tbody>
             </table>
           </div>
-        ) : (
+        </div>
+      ) : (
           <div style={styles.edtContainer}>
             {jours.map(jour => {
               const cours = emploiDuTemps.filter(e => e.jour === jour);
@@ -388,4 +415,7 @@ const styles = {
   coursHeure: { fontSize: '12px', color: '#6B7280', marginBottom: '4px' },
   coursNom: { fontSize: '14px', fontWeight: 'bold', color: '#065F46' },
   coursInfo: { fontSize: '12px', color: '#6B7280', marginTop: '2px' },
+  searchBar: { position: 'relative', marginBottom: '16px', display: 'flex', alignItems: 'center' },
+  searchInput: { width: '100%', border: '1px solid #D1D5DB', borderRadius: '8px', padding: '12px 16px', fontSize: '14px', outline: 'none', boxSizing: 'border-box' },
+  clearBtn: { position: 'absolute', right: '12px', background: 'none', border: 'none', cursor: 'pointer', fontSize: '16px', color: '#9CA3AF' },
 };
