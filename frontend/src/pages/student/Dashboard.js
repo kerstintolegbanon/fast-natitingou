@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/common/Navbar';
+import Profil from './Profil';
 import { gradeService, scheduleService } from '../../services/api';
 
 export default function StudentDashboard() {
@@ -71,6 +72,12 @@ export default function StudentDashboard() {
           >
             📅 Emploi du temps
           </button>
+          <button
+          style={activeTab === 'profil' ? styles.tabActive : styles.tab}
+          onClick={() => setActiveTab('profil')}
+          >
+            👤 Mon profil
+          </button>
         </div>
 
         {/* Contenu des onglets */}
@@ -123,7 +130,7 @@ export default function StudentDashboard() {
               </tbody>
             </table>
           </div>
-        ) : (
+        ) : activeTab === 'edt' ? (
           <div style={styles.edtContainer}>
             {jours.map(jour => {
               const cours = emploiDuTemps.filter(e => e.jour === jour);
@@ -151,7 +158,9 @@ export default function StudentDashboard() {
               );
             })}
           </div>
-        )}
+        ) : activeTab === 'profil' ? (
+          <Profil />
+        ) : null}
       </div>
     </div>
   );
