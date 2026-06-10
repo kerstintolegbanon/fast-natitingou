@@ -23,24 +23,21 @@ Avant de commencer, assure-toi d'avoir installé :
 ### 1. Cloner le projet
 
 ```bash
-git clone https://github.com/ton-username/fast-natitingou.git
+git clone https://github.com/Kerstintolegbanon/fast-natitingou.git
 cd fast-natitingou
 ```
 
 ### 2. Configurer le Backend Django
 
 ```bash
-# Aller dans le dossier backend
-cd backend
-
 # Créer et activer l'environnement virtuel
-python -m venv venv
+python -m venv env
 
 # Windows
-venv\Scripts\activate
+env\Scripts\activate
 
 # Mac/Linux
-source venv/bin/activate
+source env/bin/activate
 
 # Installer les dépendances
 pip install django djangorestframework djangorestframework-simplejwt psycopg2-binary django-cors-headers pillow
@@ -50,7 +47,7 @@ pip install django djangorestframework djangorestframework-simplejwt psycopg2-bi
 
 Ouvre **pgAdmin** et crée une base de données appelée `fast_db`.
 
-Ensuite ouvre le fichier `config/settings.py` et modifie :
+Ensuite ouvre `config/settings.py` et modifie :
 
 ```python
 DATABASES = {
@@ -58,72 +55,55 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fast_db',
         'USER': 'postgres',
-        'PASSWORD': 'ton-mot-de-passe',  # ← ton mot de passe PostgreSQL
+        'PASSWORD': 'ton-mot-de-passe',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 ```
 
-### 4. Variables d'environnement
-
-Crée un fichier `.venv` à la racine du projet avec ces variables :
-
-SECRET_KEY=django-insecure-fast-natitingou-change-this-in-production
-DEBUG=True
-DB_NAME=fast_db
-DB_USER=postgres
-DB_PASSWORD=ton-mot-de-passe
-DB_HOST=localhost
-DB_PORT=5432
-
-### 5. Appliquer les migrations
+### 4. Appliquer les migrations
 
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 6. Créer un compte administrateur
+### 5. Créer un compte administrateur
 
 ```bash
 python manage.py createsuperuser
 ```
 
-Remplis les informations demandées :
+Remplis les informations :
 - Username : admin
 - Email : admin@fast-natitingou.bj
 - Password : Fast2026@
 
-Ensuite va sur `http://127.0.0.1:8000/admin`, connecte-toi
-et change le rôle du compte admin de `student` à `admin`.
+Ensuite va sur `http://127.0.0.1:8000/admin` et change
+le rôle du compte admin de `student` à `admin`.
 
-### 7. Lancer le serveur Django
+### 6. Lancer le serveur Django
 
 ```bash
 python manage.py runserver
 ```
 
-Le backend est accessible sur `http://127.0.0.1:8000`
+Backend accessible sur `http://127.0.0.1:8000`
 
 ---
 
-### 8. Configurer le Frontend React
+### 7. Configurer le Frontend React
 
 Ouvre un nouveau terminal :
 
 ```bash
-# Aller dans le dossier frontend
 cd frontend
-
-# Installer les dépendances
 npm install
-
-# Lancer React
 npm start
 ```
 
-Le frontend est accessible sur `http://localhost:3000`
+Frontend accessible sur `http://localhost:3000`
 
 ---
 
@@ -131,13 +111,11 @@ Le frontend est accessible sur `http://localhost:3000`
 
 fast_nati_projet/
 ├── config/               ← paramètres Django
-│   ├── settings.py
-│   └── urls.py
 ├── users/                ← gestion des utilisateurs
 ├── students/             ← gestion des étudiants
 ├── grades/               ← gestion des notes
 ├── schedule/             ← emplois du temps
-├── frontend/             ← application React
+├── frontend/
 │   └── src/
 │       ├── pages/
 │       │   ├── admin/    ← tableau de bord admin
@@ -157,7 +135,34 @@ fast_nati_projet/
 |------|-------|-------------|
 | Administrateur | admin@fast-natitingou.bj | Fast2026@ |
 | Enseignant | kone@fast.bj | Prof2026@ |
-| Étudiant | etudiant1@fast.bj | Etud2026@ |
+| Étudiant | FAST2026001@fast.bj | FAST2026001 |
+
+> **Note** — Le mot de passe de l'étudiant est son numéro matricule.
+> L'email de l'étudiant suit le format : `matricule@fast.bj`
+
+---
+
+## Créer un compte étudiant
+
+1. Connecte-toi sur http://127.0.0.1:8000/admin
+2. Clique sur "Users" → "Add user"
+3. Remplis :
+
+  - Username : prenom_nom
+  - Email : MATRICULE@fast.bj
+  - Password : MATRICULE
+  - First name : Prénom
+  - Last name : NOM
+  - Role : student
+
+
+4. Clique sur "Etudiants" → "Add etudiant"
+
+5. Remplis :
+
+  - User : l'étudiant créé
+  - Matricule : MATRICULE
+  - Filière et Niveau
 
 ---
 
@@ -173,6 +178,28 @@ fast_nati_projet/
 | PATCH | /api/grades/notes/:id/valider/ | Valider une note |
 | GET | /api/grades/matieres/ | Liste matières |
 | GET | /api/schedule/ | Emplois du temps |
+
+---
+
+## Fonctionnalités
+
+### Étudiant
+- Consulter ses notes par matière
+- Voir son emploi du temps
+- Modifier son profil
+- Suivre ses moyennes en temps réel
+
+### Enseignant
+- Saisir les notes CC / TP / Examen
+- Rechercher un étudiant par matricule ou nom
+- Voir son emploi du temps
+
+### Administrateur
+- Gérer tous les utilisateurs
+- Valider les notes officiellement
+- Rechercher un étudiant par matricule ou nom
+- Gérer les matières et filières
+- Configurer les emplois du temps
 
 ---
 
@@ -192,5 +219,7 @@ fast_nati_projet/
 
 Projet réalisé dans le cadre du cursus académique
 à la FAST — Université de Natitingou.
+
+Dépôt GitHub : https://github.com/Kerstintolegbanon/fast-natitingou
 
 Année académique : 2025-2026
