@@ -265,9 +265,7 @@ export default function AdminDashboard() {
                       <th style={styles.th}>Étudiant</th>
                       <th style={styles.th}>Matricule</th>
                       <th style={styles.th}>Matière</th>
-                      <th style={styles.th}>CC</th>
-                      <th style={styles.th}>TP</th>
-                      <th style={styles.th}>Exam</th>
+                      <th style={styles.th}>Examen</th>
                       <th style={styles.th}>Moyenne</th>
                       <th style={styles.th}>Statut</th>
                     </tr>
@@ -275,7 +273,7 @@ export default function AdminDashboard() {
                   <tbody>
                     {notes.length === 0 ? (
                       <tr>
-                        <td colSpan="8" style={styles.empty}>
+                        <td colSpan="6" style={styles.empty}>
                           Aucune note saisie
                         </td>
                       </tr>
@@ -285,8 +283,6 @@ export default function AdminDashboard() {
                           <td style={styles.td}>{note.etudiant_nom}</td>
                           <td style={styles.td}>{note.matricule}</td>
                           <td style={styles.td}>{note.matiere_nom}</td>
-                          <td style={styles.tdCenter}>{note.note_cc ?? '-'}</td>
-                          <td style={styles.tdCenter}>{note.note_tp ?? '-'}</td>
                           <td style={styles.tdCenter}>{note.note_exam ?? '-'}</td>
                           <td style={{
                             ...styles.tdCenter,

@@ -9,6 +9,6 @@ class MatiereAdmin(admin.ModelAdmin):
 
 @admin.register(Note)
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ['etudiant', 'matiere', 'note_cc', 'note_tp', 'note_exam', 'moyenne', 'valide']
+    list_display = ['etudiant', 'matiere', 'note_exam', 'moyenne', 'valide']
     list_filter = ['valide', 'semestre', 'annee_academique']
     search_fields = ['etudiant__matricule', 'matiere__nom']

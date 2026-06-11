@@ -41,9 +41,8 @@ class NoteSerializer(serializers.ModelSerializer):
         model = Note
         fields = [
             'id', 'etudiant', 'etudiant_nom', 'matricule',
-            'matiere', 'matiere_nom', 'note_cc', 'note_tp',
-            'note_exam', 'moyenne', 'semestre',
-            'annee_academique', 'valide',
+            'matiere', 'matiere_nom', 'note_exam', 'moyenne',
+            'semestre', 'annee_academique', 'valide',
             'date_saisie', 'date_modification'
         ]
         read_only_fields = ['moyenne', 'date_saisie', 'date_modification']

@@ -44,21 +44,13 @@ class Note(models.Model):
         on_delete=models.CASCADE,
         related_name='notes'
     )
-    note_cc = models.FloatField(
-        null=True, blank=True,
-        verbose_name='Contrôle Continu'
-    )
-    note_tp = models.FloatField(
-        null=True, blank=True,
-        verbose_name='Travaux Pratiques'
-    )
     note_exam = models.FloatField(
-        null=True, blank=True,
-        verbose_name='Examen'
+    null=True, blank=True,
+    verbose_name='Examen'
     )
     moyenne = models.FloatField(
-        null=True, blank=True,
-        verbose_name='Moyenne'
+    null=True, blank=True,
+    verbose_name='Moyenne'
     )
     semestre = models.CharField(
         max_length=10,
@@ -76,16 +68,8 @@ class Note(models.Model):
         unique_together = ['etudiant', 'matiere', 'semestre', 'annee_academique']
 
     def save(self, *args, **kwargs):
-        # Calcul automatique de la moyenne
-        notes = []
-        if self.note_cc is not None:
-            notes.append(self.note_cc * 0.3)
-        if self.note_tp is not None:
-            notes.append(self.note_tp * 0.2)
         if self.note_exam is not None:
-            notes.append(self.note_exam * 0.5)
-        if notes:
-            self.moyenne = round(sum(notes), 2)
+            self.moyenne = round(self.note_exam, 2)
         super().save(*args, **kwargs)
 
     def __str__(self):

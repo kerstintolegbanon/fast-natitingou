@@ -13,13 +13,11 @@ export default function TeacherDashboard() {
 
   // Formulaire saisie note
   const [formNote, setFormNote] = useState({
-    etudiant: '',
-    matiere: '',
-    note_cc: '',
-    note_tp: '',
-    note_exam: '',
-    semestre: 'S1',
-    annee_academique: '2025-2026',
+  etudiant: '',
+  matiere: '',
+  note_exam: '',
+  semestre: 'S1',
+  annee_academique: '2025-2026',
   });
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -60,8 +58,6 @@ export default function TeacherDashboard() {
       setFormNote({
         etudiant: '',
         matiere: '',
-        note_cc: '',
-        note_tp: '',
         note_exam: '',
         semestre: 'S1',
         annee_academique: '2025-2026',
@@ -164,46 +160,18 @@ export default function TeacherDashboard() {
                   </select>
                 </div>
 
-                <div style={styles.threeColumns}>
-                  <div style={styles.field}>
-                    <label style={styles.label}>CC (30%)</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="20"
-                      step="0.25"
-                      style={styles.input}
-                      value={formNote.note_cc}
-                      onChange={e => setFormNote({...formNote, note_cc: e.target.value})}
-                      placeholder="0-20"
-                    />
-                  </div>
-                  <div style={styles.field}>
-                    <label style={styles.label}>TP (20%)</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="20"
-                      step="0.25"
-                      style={styles.input}
-                      value={formNote.note_tp}
-                      onChange={e => setFormNote({...formNote, note_tp: e.target.value})}
-                      placeholder="0-20"
-                    />
-                  </div>
-                  <div style={styles.field}>
-                    <label style={styles.label}>Examen (50%)</label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="20"
-                      step="0.25"
-                      style={styles.input}
-                      value={formNote.note_exam}
-                      onChange={e => setFormNote({...formNote, note_exam: e.target.value})}
-                      placeholder="0-20"
-                    />
-                  </div>
+                <div style={styles.field}>
+                  <label style={styles.label}>Note Examen</label>
+                  <input
+                   type="number"
+                   min="0"
+                   max="20"
+                   step="0.25"
+                   style={styles.input}
+                   value={formNote.note_exam}
+                   onChange={e => setFormNote({...formNote, note_exam: e.target.value})}
+                   placeholder="0-20"
+                  />
                 </div>
 
                 <div style={styles.twoColumnsForm}>

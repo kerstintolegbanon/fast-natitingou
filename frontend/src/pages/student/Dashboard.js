@@ -89,8 +89,6 @@ export default function StudentDashboard() {
               <thead>
                 <tr style={styles.tableHeader}>
                   <th style={styles.th}>Matière</th>
-                  <th style={styles.th}>CC</th>
-                  <th style={styles.th}>TP</th>
                   <th style={styles.th}>Examen</th>
                   <th style={styles.th}>Moyenne</th>
                   <th style={styles.th}>Semestre</th>
@@ -100,7 +98,7 @@ export default function StudentDashboard() {
               <tbody>
                 {notes.length === 0 ? (
                   <tr>
-                    <td colSpan="7" style={styles.empty}>
+                    <td colSpan="5" style={styles.empty}>
                       Aucune note disponible
                     </td>
                   </tr>
@@ -108,8 +106,6 @@ export default function StudentDashboard() {
                   notes.map((note, i) => (
                     <tr key={note.id} style={i % 2 === 0 ? styles.trEven : styles.trOdd}>
                       <td style={styles.td}>{note.matiere_nom}</td>
-                      <td style={styles.tdCenter}>{note.note_cc ?? '-'}</td>
-                      <td style={styles.tdCenter}>{note.note_tp ?? '-'}</td>
                       <td style={styles.tdCenter}>{note.note_exam ?? '-'}</td>
                       <td style={{
                         ...styles.tdCenter,
